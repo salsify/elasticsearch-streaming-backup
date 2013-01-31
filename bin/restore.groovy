@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 @GrabResolver(name='sonatype', root='https://oss.sonatype.org/content/groups/public')
-@Grab(group='org.elasticsearch', module='elasticsearch', version='0.20.0.RC1')
+@Grab(group='org.elasticsearch', module='elasticsearch', version='0.20.4')
 import org.elasticsearch.common.settings.Settings
 import org.elasticsearch.common.settings.ImmutableSettings
 import org.elasticsearch.client.Client
@@ -77,7 +77,7 @@ def dataFile = new File(opt.input, "${opt.index}-data.gz.smile")
 dataFile.withInputStream { dataStream ->
     def dataParser = SmileXContent.smileXContent.createParser(new GZIPInputStream(dataStream))
     def count = 0
-    def currentBulkRequest = client.prepareBulk()
+    def currentBulkRequest = client.prepareBulk().setRefresh(true)
     println "indexing data"
     if(dataParser.nextToken() == XContentParser.Token.START_ARRAY) { //could be valid
         while(dataParser.currentToken() != XContentParser.Token.END_ARRAY) {
@@ -124,6 +124,8 @@ def doBulk(client, currentBulkRequest) {
     } else {
         println " -- DONE"
     }
+
+
 
     return bulkResponse
 }
