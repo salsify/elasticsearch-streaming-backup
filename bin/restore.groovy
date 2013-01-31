@@ -99,7 +99,7 @@ dataFile.withInputStream { dataStream ->
  This method will add this document to the current bulk request and if the size is big enough it will do the bulk request
  */
 def index(client, currentBulkRequest, indexName, indexType, id, doc) {
-    def batchSize = 1000
+    def batchSize = 5000
 
     def indexRequest = client.prepareIndex(indexName,indexType,id)
     indexRequest.source = doc

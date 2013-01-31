@@ -113,7 +113,7 @@ SearchResponse scrollResp = client.prepareSearch(opt.index)
         .setSearchType(SearchType.SCAN)
         .setScroll(new TimeValue(60000))
         .setQuery(qb)
-        .setSize(50).execute().actionGet(); //X hits per shard will be returned for each scroll
+        .setSize(500).execute().actionGet(); //X hits per shard will be returned for each scroll
 //Scroll until no hits are returned
 def count = 1;
 while (true) {
