@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 @GrabResolver(name='sonatype', root='https://oss.sonatype.org/content/groups/public')
-@Grab(group='org.elasticsearch', module='elasticsearch', version='0.20.4')
+@Grab(group='org.elasticsearch', module='elasticsearch', version='0.90.0')
 import static org.elasticsearch.node.NodeBuilder.*
 import org.elasticsearch.common.settings.ImmutableSettings
 import org.elasticsearch.common.settings.Settings
@@ -134,7 +134,7 @@ while (true) {
     }
     println "done ${count}"
     //Break condition: No hits are returned
-    if (scrollResp.hits().hits().length == 0) {
+    if (scrollResp.getHits().getHits().length == 0) {
         break;
     }
 }
