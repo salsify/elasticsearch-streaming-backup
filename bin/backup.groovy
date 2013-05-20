@@ -111,13 +111,14 @@ QueryBuilder qb = new MatchAllQueryBuilder()
 
 SearchResponse scrollResp = client.prepareSearch(opt.index)
         .setSearchType(SearchType.SCAN)
-        .setScroll(new TimeValue(60000))
+        .setScroll(new TimeValue(300000))
         .setQuery(qb)
         .setSize(500).execute().actionGet(); //X hits per shard will be returned for each scroll
 //Scroll until no hits are returned
 def count = 1;
 while (true) {
-    scrollResp = client.prepareSearchScroll(scrollResp.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();
+    scrollResp = client.prepareSearchScroll(scrollResp.getScrollId()).setScroll(new TimeValue(300000)).execute().actionGet();
+    println "got ${scrollResp.getHits().getHits().length} hits"
     for (SearchHit hit : scrollResp.getHits()) {
         //Handle the hit...
         outputBuilder.startObject()
