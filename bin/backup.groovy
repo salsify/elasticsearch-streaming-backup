@@ -118,7 +118,6 @@ SearchResponse scrollResp = client.prepareSearch(opt.index)
 def count = 1;
 while (true) {
     scrollResp = client.prepareSearchScroll(scrollResp.getScrollId()).setScroll(new TimeValue(300000)).execute().actionGet();
-    println "got ${scrollResp.getHits().getHits().length} hits"
     for (SearchHit hit : scrollResp.getHits()) {
         //Handle the hit...
         outputBuilder.startObject()
